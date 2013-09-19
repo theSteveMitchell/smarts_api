@@ -11,7 +11,7 @@ class SmartsApi::Message
   cattr_accessor :user_id, :pwd, :app_id, :workspace_id, :access_key, :base_uri, :project_id
 
 
-  def initialize(logger)
+  def initialize(logger=nil)
     @logger = logger
   end
 

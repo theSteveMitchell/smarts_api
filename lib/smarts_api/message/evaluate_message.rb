@@ -16,13 +16,13 @@ class SmartsApi::EvaluateMessage < SmartsApi::Message
     body = reply["Body"]
 
     if body.blank?
-      logger.info "Rules Engine Evaluation failed. \n\n #{body} \n\n #{response.body}"
+      logger.info "Rules Engine Evaluation failed. \n\n #{body} \n\n #{response.body}" if logger.respond_to?(:info)
 
       raise SmartsApi::Error, "Rules Evaluation failed.  Returned JSON is blank."
     end
 
     logger.info "Updating issues" if logger.respond_to?(:info)
-    update_member_issues member, body
+    member.process_smarts_response body
     return body
   end
 
@@ -43,16 +43,6 @@ class SmartsApi::EvaluateMessage < SmartsApi::Message
     doc = {:OperationId =>1 , :Header => {:SessionId => session, :DecisionId => decision}, :Body => {:Documents => []}}
     doc[:Body][:Documents] = member.smarts_document
     return doc.to_json
-  end
-
-  def update_member_issues(member, body)
-    logger.info "Updating member with id #{member.id} Issues and Goals" if logger.respond_to?(:info)
-    if body["Documents"].first["identification"]["actor_id"].to_i == member.entity.id
-      body["Documents"].first["issues_collection"].each do |issue|
-        member.identify_issue(issue["issue_name"], issue["identification_category"], issue["Explanation"])
-      end
-      member.save
-    end
   end
 
    def uri

@@ -5,7 +5,7 @@ describe SmartsApi do
   describe "evaluate" do
 
     before (:all) do
-      SmartsApi::Message.base_uri = "http://smarts.dev.thismashine.com"
+      SmartsApi::Message.base_uri = "http://smarts.dev.thismashine.com/"
       SmartsApi::Message.access_key = "sshhhh...Secret!"
     end
 
@@ -43,15 +43,13 @@ describe SmartsApi do
     end
 
     describe "specifying decision string" do
-      it "should include the decision name when sending the evaluate message" do
+      it "should include the decision name and session when sending the evaluate message" do
 
         instance = EvalClass.new
         instance.should_not be_nil
         SmartsApi::ConnectMessage.any_instance.should_receive(:send).and_return("session 3339")
         SmartsApi::EvaluateMessage.any_instance.should_receive(:send).with("session 3339", instance, "Chosen_decision")
-         #SmartsApi::EvaluateMessage.any_instance.should_receive(:send)
-        #SmartsApi::DisconnectMessage.should_receive(:send)
-         SmartsApi.evaluate("Chosen_decision", instance)
+        SmartsApi.evaluate("Chosen_decision", instance)
       end
     end
   end

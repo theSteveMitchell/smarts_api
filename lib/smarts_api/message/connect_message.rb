@@ -2,7 +2,6 @@ class SmartsApi::ConnectMessage < SmartsApi::Message
 
     def send
       logger.info "Connecting to #{uri}" if logger.respond_to?(:info)
-      puts uri
       response = Typhoeus::Request.post(uri,
         :method => method,
         :headers => {:Accept => "text/json"},
