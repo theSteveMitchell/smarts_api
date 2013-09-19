@@ -14,4 +14,9 @@ Gem::Specification.new do |gem|
   gem.name          = "smarts_api"
   gem.require_paths = ["lib"]
   gem.version       = SmartsApi::Version::STRING
+
+  gem.add_dependency('typhoeus')
+  gem.add_dependency('active_support')
+
+  gem.add_development_dependency('rspec', '~> 2.14.1')
 end
