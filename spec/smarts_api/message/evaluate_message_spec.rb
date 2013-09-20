@@ -7,20 +7,6 @@ describe SmartsApi::EvaluateMessage do
       SmartsApi::Message.access_key = "sshhhh...Secret!"
     end
 
-  let(:entity){Hashie::Mash.new({"created_at"=>"2012-06-06T00 => 18 => 20Z", "date_of_birth"=>"1959-12-18", "first_name"=>"Fruit",
-                "gender"=>1, "id"=>1, "is_special_care"=>false, "is_test_user"=>false, "is_vip"=>false, "last_name"=>"Loop",
-                "last_verified"=>nil, "middle_name"=>nil, "nick_name"=>nil, "notes"=>nil, "prefix"=>nil, "remote_id"=>99,
-                "social_security_number"=>nil, "suffix"=>nil, "time_zone_id"=>nil, "updated_at"=>"2012-06-06T00 => 18 => 20Z",
-                "verified_by"=>nil, "emails"=>[{"created_at"=>"2012-06-06T00 => 18 => 20Z",
-                                                "email"=>"hal.romaguera@gutkowskimccullough.biz", "email_type_id"=>1,
-                                                "entity_id"=>1, "id"=>1, "is_deleted"=>false, "updated_at"=>"2012-06-06T00 => 18 => 20Z"}],
-                "addresses"=>[{"address1"=>"5753 Donna Street", "address2"=>nil, "address3"=>nil, "address_type"=>1,
-                               "city"=>"Maxieside", "country_code"=>"USA", "created_at"=>"2012-06-06T00 => 18 => 20Z", "entity_id"=>1,
-                               "id"=>1, "is_deleted"=>false, "postal_code"=>"13331", "state"=>"MP", "updated_at"=>"2012-06-06T00 => 18 => 20Z"}],
-                "phone_numbers"=>[{"created_at"=>"2012-06-06T00 => 18 => 20Z", "entity_id"=>1, "extension"=>nil, "id"=>1,
-                                   "is_deleted"=>false, "is_primary"=>true, "phone_number"=>"7010456235", "phone_number_type_id"=>1,
-                                   "updated_at"=>"2012-06-06T00 => 18 => 20Z"}], "group"=>{"name"=>"ABC Co", "parent_group_id"=>"2", "is_leaf"=>"true"}})}
-
     let(:eval_class) {
     Class.new() do
 

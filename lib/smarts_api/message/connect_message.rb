@@ -41,9 +41,5 @@ class SmartsApi::ConnectMessage < SmartsApi::Message
       "#{base_uri}connect"
     end
 
-    def method
-      :post
-    end
-
 end
 

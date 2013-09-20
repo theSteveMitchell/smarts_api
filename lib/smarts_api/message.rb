@@ -15,15 +15,21 @@ class SmartsApi::Message
     @logger = logger
   end
 
+  def method
+    :post
+  end
+
+  def uri
+    base_uri
+  end
+
   def sign_request(params)
     #Below you will find the reverse-engineered ruby implementation of Sparkling Logic's security signing algorithm.
-    #It is a very poorly designed encryption algorithm, originally written in javascript, by some junior developer at Sparkling Logic.
-    #You will find notes along the way to help indicate what's going on.
-      #This will not be over quickly
-      #Your will not enjoy this.\
-      #I am not your king.
+    #this was translated from a javascript library on their documentation site, then
 
-    #The params object MUST include EXACTLY these parameters, in this order: AppId, pwd, reqData, reqTime, userID, and workspaceID.
+    #The params object include the following parameters, in this order: AppId, pwd, reqData, reqTime, userID, and workspaceID.
+    #naming of the parameters is significant, and case-sensitive.
+
     #combine the parameters into a long encoded string (again, order of elements is critical)
     encoded_parts = []
     http = URI.parse(uri)
@@ -38,9 +44,9 @@ class SmartsApi::Message
     digest = OpenSSL::Digest::Digest.new('sha256')
     hash = OpenSSL::HMAC.hexdigest(digest, access_key, encoded)
 
-    #6 OpenSSL::Digest correctly translates the Hash to a string of bytes.  Sparkling Logic's algorithm incorrectly converts the hex value to the corresponding ascii code.
-    #So we need to iterate each pair in our byte string and convert to ascii. this is incredibly gross, but c'est la vie
-    #7 AND THEN we encode the string to base64 for absolutely no logical reason.
+    #6 OpenSSL::Digest correctly translates the Hash to a string of bytes.  Sparkling Logic's algorithm ...unexpectedle converts the hex value to the corresponding ascii code.
+    #So we need to iterate each pair in our byte string and convert to ascii. this is a little ugly, but necessary
+    #7 AND THEN we encode that string to base64.  Not sure why, exactly...
     signature =  Base64.encode64(hex_string_to_ascii(hash))
     #8 re-URL_encode the string and remove line-endings.  Again, for absolutely no logical reason.  I think the javascript version did this automatically.
     signature =  url_encode(signature)

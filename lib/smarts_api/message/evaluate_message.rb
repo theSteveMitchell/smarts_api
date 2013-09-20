@@ -48,8 +48,4 @@ class SmartsApi::EvaluateMessage < SmartsApi::Message
    def uri
       "#{base_uri}evaluate"
     end
-
-    def method
-      :post
-    end
 end
