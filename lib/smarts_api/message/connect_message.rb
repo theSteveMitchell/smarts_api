@@ -1,7 +1,7 @@
 class SmartsApi::ConnectMessage < SmartsApi::Message
 
     def send
-      logger.info "Connecting to #{uri}" if logger.respond_to?(:info)
+      log "Connecting to #{uri}"
       response = Typhoeus::Request.post(uri,
         :method => method,
         :headers => {:Accept => "text/json"},
@@ -19,17 +19,17 @@ class SmartsApi::ConnectMessage < SmartsApi::Message
     end
 
     def request_document
-      {:OperationId =>1 , :Header => {:DeploymentId => project_id}}.to_json
+      {:OperationId =>1 , :Header => {:DeploymentId => SmartsApi::Configuration.project_id}}.to_json
     end
 
     def request_params
       params = {
-          :appId => app_id,
-          :pwd => pwd,
+          :appId => SmartsApi::Configuration.app_id,
+          :pwd => SmartsApi::Configuration.pwd,
           :reqData => request_document,
           :reqTime => self.timestamp,
-          :userId =>  user_id,
-          :workspaceId => workspace_id
+          :userId =>  SmartsApi::Configuration.user_id,
+          :workspaceId => SmartsApi::Configuration.workspace_id
       }
       signature = {
           :sign => sign_request(params)
@@ -38,7 +38,7 @@ class SmartsApi::ConnectMessage < SmartsApi::Message
     end
 
     def uri
-      "#{base_uri}connect"
+      "#{super}connect"
     end
 
 end

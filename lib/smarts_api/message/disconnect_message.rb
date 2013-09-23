@@ -3,7 +3,7 @@ class SmartsApi::DisconnectMessage < SmartsApi::Message
 
   def send(session)
     body = make_form(request_params(session))
-    logger.info "Disconnecting" if logger.respond_to?(:info)
+    log "Disconnecting"
     response = Typhoeus::Request.post(uri,
                                       :method  => method,
                                       :headers => {:Accept => "text/json"},
@@ -21,7 +21,7 @@ class SmartsApi::DisconnectMessage < SmartsApi::Message
 
   def request_params(session)
     params = {
-        :appId => app_id,
+        :appId => SmartsApi::Configuration.app_id,
         :reqTime => timestamp,
         :session => session
     }
@@ -32,7 +32,7 @@ class SmartsApi::DisconnectMessage < SmartsApi::Message
   end
 
   def uri
-    "#{base_uri}disconnect"
+    "#{super}disconnect"
   end
 
 

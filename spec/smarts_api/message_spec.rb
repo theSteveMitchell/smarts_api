@@ -3,16 +3,19 @@ require 'spec_helper'
 describe SmartsApi::Message do
 
   before (:all) do
-      SmartsApi::Message.base_uri = "http://www.versign.com/request/doSomething.aspc"
-      SmartsApi::Message.access_key = "secretKey"
+      SmartsApi::Configuration.base_uri = "http://www.versign.com/request/doSomething.aspc"
+      SmartsApi::Configuration.access_key = "secretKey"
     end
 
   describe 'initializer' do
     it "should keep the logger for logging purposes" do
       logger = Logger.new(STDOUT)
-      message = SmartsApi::Message.new(logger)
+      SmartsApi::Configuration.logger = logger
+      message = SmartsApi::Message.new()
 
-      message.logger.should == logger
+      logger.should_receive(:info).with("Test is a pass!")
+
+      message.log "Test is a pass!"
 
     end
   end

@@ -2,7 +2,7 @@ class SmartsApi::EvaluateMessage < SmartsApi::Message
 
   def send(session, member, decision)
     body = make_form(request_params(session, member, decision))
-    logger.info "Evaluating" if logger.respond_to?(:info)
+    log "Evaluating"
     response = Typhoeus::Request.post(uri,
                                       :method => method,
                                       :headers => {:Accept => "text/json"},
@@ -16,19 +16,19 @@ class SmartsApi::EvaluateMessage < SmartsApi::Message
     body = reply["Body"]
 
     if body.blank?
-      logger.info "Rules Engine Evaluation failed. \n\n #{body} \n\n #{response.body}" if logger.respond_to?(:info)
+      log "Rules Engine Evaluation failed. \n\n #{body} \n\n #{response.body}"
 
       raise SmartsApi::Error, "Rules Evaluation failed.  Returned JSON is blank."
     end
 
-    logger.info "Updating issues" if logger.respond_to?(:info)
+    log "Updating issues"
     member.process_smarts_response body
     return body
   end
 
   def request_params(session, member, decision)
     params = {
-        :appId => app_id,
+        :appId => SmartsApi::Configuration.app_id,
         :reqData => request_document(session, member, decision),
         :reqTime => timestamp,
         :session => session
@@ -46,6 +46,6 @@ class SmartsApi::EvaluateMessage < SmartsApi::Message
   end
 
    def uri
-      "#{base_uri}evaluate"
+      "#{super}evaluate"
     end
 end

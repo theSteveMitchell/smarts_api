@@ -1,26 +1,22 @@
 require 'typhoeus'
 require 'json'
-require 'active_support/core_ext/class'
 require 'active_support/core_ext/array'
 include ERB::Util
 require 'openssl'
 require 'base64'
 
 class SmartsApi::Message
-  attr_reader :logger
-  cattr_accessor :user_id, :pwd, :app_id, :workspace_id, :access_key, :base_uri, :project_id
-
-
-  def initialize(logger=nil)
-    @logger = logger
-  end
 
   def method
     :post
   end
 
   def uri
-    base_uri
+    SmartsApi::Configuration.base_uri
+  end
+
+  def log(msg)
+    SmartsApi::Configuration.logger.info msg if SmartsApi::Configuration.logger.respond_to?(:info)
   end
 
   def sign_request(params)
@@ -42,7 +38,7 @@ class SmartsApi::Message
 
     #5 Digest the encode string with SHA256, using the pre-shared AccessKey as the digest key.
     digest = OpenSSL::Digest::Digest.new('sha256')
-    hash = OpenSSL::HMAC.hexdigest(digest, access_key, encoded)
+    hash = OpenSSL::HMAC.hexdigest(digest, SmartsApi::Configuration.access_key, encoded)
 
     #6 OpenSSL::Digest correctly translates the Hash to a string of bytes.  Sparkling Logic's algorithm ...unexpectedle converts the hex value to the corresponding ascii code.
     #So we need to iterate each pair in our byte string and convert to ascii. this is a little ugly, but necessary
