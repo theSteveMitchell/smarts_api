@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = SmartsApi::Version::STRING
 
   gem.add_dependency('typhoeus')
-  gem.add_dependency('active_support')
+  gem.add_dependency('activesupport')
 
   gem.add_development_dependency('rspec', '~> 2.14.1')
   gem.add_development_dependency('webmock')
