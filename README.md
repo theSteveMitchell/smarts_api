@@ -10,10 +10,10 @@ This project and it's creators, contributors, fans, and haters are in no way ass
 ## Usage
 
 ```ruby
-  gem install smarts_api
+  gem install smarts_api #use bundle if working in rails
 ```
 
-Create in your rails app a config/initializers/smarts_api.rb
+Create in your ruby app a config/initializers/smarts_api.rb
 ```ruby 
   SMARTS_CONFIG = YAML.load_file(Rails.root.join("config","sparkling_logic.yml"))[Rails.env]
   SmartsApi.configure do | config |
