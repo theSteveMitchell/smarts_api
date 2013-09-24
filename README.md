@@ -1,18 +1,14 @@
 smarts_api
 ==========
 
-Ruby API for Sparkling Logic SMARTS
+Ruby API for Sparkling Logic SMARTS™
 
-
-This project and it's creators, contributors, fans, and haters are in no way associated with Sparkling Logic, the innovator and creator of SMARTS.
-
-
-## Usage
-
+## Install
 ```ruby
   gem install smarts_api #use bundle if working in rails
 ```
 
+##Usage
 Create in your ruby app a config/initializers/smarts_api.rb
 ```ruby 
   SMARTS_CONFIG = YAML.load_file(Rails.root.join("config","sparkling_logic.yml"))[Rails.env]
@@ -58,3 +54,18 @@ class EvalObject
   
 end
 ```
+
+
+##Credits, Contributors
+
+Created by [Steve Mitchell](https://github.com/theSteveMitchell)
+
+Issues and contributions welcome.
+
+##Disclaimer
+This project and it's creators, contributors, detractors, fans, haters (who, by definition, are always gonna hate), users, and abusers are in no way associated with Sparkling Logic, the innovator and creator of SMARTS™.  We have no connection with Sparkling Logic, and are not responsible for any work they do.  
+
+From http://my.sparklinglogic.com/index.php/what-it-does:
+
+Sparkling Logic SMARTS™ is a revolutionary decision management product that provides you with an intuitive and interactive environment that dramatically lowers the learning curve to allow you to immediately start capturing and refining your decision logic.  You can combine decision logic based on business policies and expertise with decision logic revealed in your historical data- so you can narrow to the most impactful and high-performance business decision.   Collaboration is built into SMARTS so all relevant stakeholders can participate in defining and managing automated decisions.
+
