@@ -18,15 +18,16 @@ module SmartsApi
   Dir[File.expand_path('../../lib/smarts_api/*.rb', __FILE__)].each {|f| require f}
   Dir[File.expand_path('../../lib/smarts_api/*/*.rb', __FILE__)].each {|f| require f}
 
-  def self.evaluate(decision, obj, logger = nil)
-    raise SmartsApi::Error.new("Object to be evaluated must define a method 'smarts_document'") unless obj.respond_to?(:smarts_document)
-    logger.info "processing request for #{obj.class} id=#{obj.id}{" if logger.respond_to?(:info)
+  def self.evaluate(decision, obj_hash, logger = nil)
+    logger.info "processing request for #{obj_hash}" if logger.respond_to?(:info)
 
     session = SmartsApi::ConnectMessage.new().send
     response = SmartsApi::EvaluateMessage.new().
-        send(session, obj, decision)
+        send(session, obj_hash, decision)
 
     SmartsApi::DisconnectMessage.new().send(session)
+
+    return response
   end
 
 end

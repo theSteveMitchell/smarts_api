@@ -1,7 +1,7 @@
 class SmartsApi::EvaluateMessage < SmartsApi::Message
 
-  def send(session, member, decision)
-    body = make_form(request_params(session, member, decision))
+  def send(session, obj_hash, decision)
+    body = make_form(request_params(session, obj_hash, decision))
     log "Evaluating"
     response = Typhoeus::Request.post(uri,
                                       :method => method,
@@ -20,16 +20,13 @@ class SmartsApi::EvaluateMessage < SmartsApi::Message
 
       raise SmartsApi::Error, "Rules Evaluation failed.  Returned JSON is blank."
     end
-
-    log "Updating issues"
-    member.process_smarts_response body
     return body
   end
 
-  def request_params(session, member, decision)
+  def request_params(session, obj_hash, decision)
     params = {
         :appId => SmartsApi::Configuration.app_id,
-        :reqData => request_document(session, member, decision),
+        :reqData => request_document(session, obj_hash, decision),
         :reqTime => timestamp,
         :session => session
     }
@@ -39,9 +36,9 @@ class SmartsApi::EvaluateMessage < SmartsApi::Message
     return params.merge(signature)
   end
 
-  def request_document(session, member, decision)
+  def request_document(session, obj_hash, decision)
     doc = {:OperationId =>1 , :Header => {:SessionId => session, :DecisionId => decision}, :Body => {:Documents => []}}
-    doc[:Body][:Documents] = member.smarts_document
+    doc[:Body][:Documents] = obj_hash
     return doc.to_json
   end
 
