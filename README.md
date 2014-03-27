@@ -37,33 +37,17 @@ development: &default
 
 Finally you can call smarts with 
 ```ruby
-SmartsApi.evaluate("Decide if situation is cool", situation, logger=nil)
+SmartsApi.evaluate("Is situation good?", situation, logger=nil)
 ```
 
-the evaluate call takes a string parameter identifying the decision to evaluate.  the eval_object is any Object, but must respond to the following methods:
-```ruby
-class Situation
+The evaluate call takes 3 parameters:
+-1 the name of the decision to evaluate (Smarts projects have 1 or more decisions)
+-2 a hash that is usually json, that matches the defined structure the decision expects.
+-3 an optional logger instance
 
-  def smarts_document
-    #generates a JSON document that matches the expected json format of the SMARTS project
-    [
-      {
-        :time_stamp => DateTime.now 
-        :have_money => Money.any?
-        :have_power => Power.significant_amount?
-      }
-    ]
-  end
-  
-  def process_smarts_response(body)
-    #takes a JSON document as its parameter, and processes it with whatever rules pertain to this class
-    if body["Documents"].first["is_a_cool_situation"]
-      User.notify("Your situation is cool!") 
-    end 
-  end
-  
-end
-```
+The return type is another hash, the structure of which depends on your decision configuration.
+
+Behind the scenes, the Smarts api will handle all the (rather convoluted) business of signing messages, handling the connect/eval/disconnect loop, and rescuing errors
 
 
 ##Credits, Contributors
